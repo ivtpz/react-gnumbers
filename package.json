@@ -1,6 +1,7 @@
 {
   "name": "golden-numbers",
   "version": "0.1.0",
+  "homepage": "https://golden-numbers.herokuapp.com/",
   "devDependencies": {
     "react-scripts": "0.6.1"
   },
