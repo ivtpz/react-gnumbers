@@ -1,7 +1,9 @@
 {
   "name": "golden-numbers",
   "version": "0.1.0",
-  "homepage": "https://golden-numbers.herokuapp.com/",
+  "homepage": "https://golden-numbers.herokuapp.com",
+  "dist": "webpack -p",
+  "postinstall": "npm run dist",
   "devDependencies": {
     "react-scripts": "0.6.1"
   },
