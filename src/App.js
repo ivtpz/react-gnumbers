@@ -6,10 +6,18 @@ import image2 from './imgs/2.png';
 import image2g from './imgs/2g.png';
 import image3 from './imgs/3.png';
 import image3g from './imgs/3g.png';
+import image4 from './imgs/4.png';
+import image4g from './imgs/4g.png';
 import image5 from './imgs/5.png';
 import image5g from './imgs/5g.png';
+import image6 from './imgs/6.png';
+import image6g from './imgs/6g.png';
+import image7 from './imgs/7.png';
+import image7g from './imgs/7g.png';
 import image8 from './imgs/8.png';
 import image8g from './imgs/8g.png';
+import image9 from './imgs/9.png';
+import image9g from './imgs/9g.png';
 var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 
@@ -17,16 +25,24 @@ var imageMap = {
   1: image1,
   2: image2,
   3: image3,
+  4: image4,
   5: image5,
-  8: image8
+  6: image6,
+  7: image7,
+  8: image8,
+  9: image9
 }
 
 var imageMapG = {
   1: image1g,
   2: image2g,
   3: image3g,
+  4: image4g,
   5: image5g,
-  8: image8g
+  6: image6g,
+  7: image7g,
+  8: image8g,
+  9: image9g
 }
 
 class Cell extends Component {

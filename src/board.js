@@ -1,23 +1,25 @@
 var _ = require('underscore')
 
-var fibs = [1, 1];
-for (var i = 0; i < 6; i++) {
-  fibs.push(fibs[i] + fibs[i + 1]);
-}
+var fibs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 var Cell = function (value, loc, clicked, clickable) {
   this.value = value || this.randomFib();
   this.loc = loc;
   this.clicked = clicked || false;
-  this.clickable = clickable || this.value === 1 ? true : false;
+  this.clickable = true;
 };
 
 Cell.prototype.randomFib = function () {
   var percent = Math.ceil(Math.random() * 100);
-  if (percent < 50) return fibs[1];
-  if (percent < 70) return fibs[2];
-  if (percent < 85) return fibs[3];
-  if (percent < 95) return fibs[4];
+  if (percent < 20) return fibs[0];
+  if (percent < 30) return fibs[1];
+  if (percent < 40) return fibs[2];
+  if (percent < 50) return fibs[3];
+  if (percent < 60) return fibs[4];
+  if (percent < 70) return fibs[5];
+  if (percent < 80) return fibs[6];
+  if (percent < 90) return fibs[7];
+  if (percent < 95) return fibs[8];
   return fibs[5];
 };
 
@@ -26,7 +28,8 @@ var Board = function(size) {
   this.cells = this.createNewBoard(size);
   this.path = [];
   this.success = false;
-  this.fibs = fibs;
+  this.curr = undefined;
+  this.next = undefined;
   this.score = 0;
 };
 
@@ -41,12 +44,21 @@ Board.prototype.createNewBoard = function (size) {
   return board;
 };
 
+Board.prototype.setNextOption = function () {
+  if (this.path.length >= 2) {
+    this.next = this.path[this.path.length - 1].value + this.path[this.path.length - 2].value
+  } else {
+    this.next = undefined;
+  }
+  console.log(this.next)
+}
+
 
 Board.prototype.restrictToSurrounding = function (loc) {
   this.cells.forEach((row) => {
     row.forEach((cell) => {
       if (cell.loc[0] >= loc[0] - 1 && cell.loc[0] <= loc[0] + 1 && cell.loc[1] >= loc[1] - 1 && cell.loc[1] <= loc[1] + 1) {
-        if (cell.value === fibs[this.path.length]) cell.clickable = true;
+        if (this.next === undefined || cell.value === this.next) cell.clickable = true;
         if (cell.loc[0] + cell.loc[1] === loc[0] + loc[1] || cell.loc[0] - cell.loc[1] === loc[0] - loc[1]) {
           cell.clickable = false;
           this.cells[loc[0]][loc[1]].clickable = true;
@@ -68,6 +80,7 @@ Board.prototype.setClickOptions = function (loc) {
   //if square was turned on, only allow clicking in adjacent squares
   if (square.clicked) {
     this.path.push(square);
+    this.setNextOption();
     if (this.path.length >= 3) {
       this.success = true;
     }
@@ -75,16 +88,13 @@ Board.prototype.setClickOptions = function (loc) {
   } else {
   //go back one step in this.path
     this.path.pop();
+    this.setNextOption();
     if (this.path.length !== 0) {
       this.restrictToSurrounding(this.path[this.path.length - 1].loc)
     } else {
       this.cells.forEach((row) => {
         row.forEach((cell) => {
-          if (cell.value === 1) {
-            cell.clickable = true;
-          } else {
-            cell.clickable = false;
-          }
+         cell.clickable = true;
         })
       })
     }
@@ -93,7 +103,7 @@ Board.prototype.setClickOptions = function (loc) {
 };
 
 Board.prototype.updateScore = function () {
-  this.score += Math.pow(this.path[this.path.length - 1].value, 2);
+  this.score += Math.pow(this.path.length, 2);
 }
 
 Board.prototype.update = function () {
@@ -144,7 +154,7 @@ Board.prototype.reset = function () {
   this.success = false;
   this.cells.forEach((row) => {
     row.forEach((cell) => {
-      cell.clickable = cell.value === 1 ? true : false;
+      cell.clickable = true;
       cell.clicked = false;
     })
   })
