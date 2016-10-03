@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 import TransitionGroup from 'react-addons-css-transition-group';
+import image0 from './imgs/0.png';
+import image0g from './imgs/0g.png';
 import image1 from './imgs/1.png';
 import image1g from './imgs/1g.png';
 import image2 from './imgs/2.png';
@@ -21,9 +23,13 @@ import image8g from './imgs/8g.png';
 import image9 from './imgs/9.png';
 import image9g from './imgs/9g.png';
 import image1n from './imgs/n1.png';
+import image1ng from './imgs/n1g.png';
+import image2n from './imgs/n2.png';
+import image2ng from './imgs/n2g.png';
 
 
 var imageMap = {
+  0: image0,
   1: image1,
   2: image2,
   3: image3,
@@ -36,6 +42,7 @@ var imageMap = {
 }
 
 var imageMapG = {
+  0: image0g,
   1: image1g,
   2: image2g,
   3: image3g,
@@ -48,7 +55,13 @@ var imageMapG = {
 };
 
 var imageMapN = {
-  1: image1n
+  1: image1n,
+  2: image2n
+};
+
+var imageMapNG = {
+  1: image1ng,
+  2: image2ng
 }
 
 class Cell extends Component {
@@ -75,11 +88,11 @@ class Cell extends Component {
         style.backgroundColor = this.state.hover ? 'darkgray' : 'gray'
       }
     if (this.props.cell.value < 0) {
-      var imageDisplay = imageMapN[Math.abs(this.props.cell.value)];
+      var imageDisplay = this.props.success && this.props.cell.clicked ? imageMapNG[Math.abs(this.props.cell.value)] : imageMapN[Math.abs(this.props.cell.value)];
     } else {
       var imageDisplay = this.props.success && this.props.cell.clicked ? imageMapG[this.props.cell.value] : imageMap[this.props.cell.value];
     }
-    
+
     return (
       <td style={style}
         onClick={() => this.props.cell.clickable ? this.props.setPath(this.props.cell) : null}
