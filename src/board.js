@@ -1,25 +1,27 @@
 var _ = require('underscore')
 
-var fibs = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+var fibs = [-1, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 var Cell = function (value, loc, clicked, clickable) {
   this.value = value || this.randomFib();
   this.loc = loc;
   this.clicked = clicked || false;
   this.clickable = true;
-};
+  this.Id = Math.ceil(Math.random()*10000);
+ };
 
 Cell.prototype.randomFib = function () {
   var percent = Math.ceil(Math.random() * 100);
-  if (percent < 20) return fibs[0];
-  if (percent < 30) return fibs[1];
-  if (percent < 40) return fibs[2];
-  if (percent < 50) return fibs[3];
-  if (percent < 60) return fibs[4];
-  if (percent < 70) return fibs[5];
-  if (percent < 80) return fibs[6];
-  if (percent < 90) return fibs[7];
-  if (percent < 95) return fibs[8];
+  if (percent < 8) return fibs[0];
+  if (percent < 25) return fibs[1];
+  if (percent < 35) return fibs[2];
+  if (percent < 45) return fibs[3];
+  if (percent < 55) return fibs[4];
+  if (percent < 65) return fibs[5];
+  if (percent < 75) return fibs[6];
+  if (percent < 85) return fibs[7];
+  if (percent < 90) return fibs[8];
+  if (percent < 95) return fibs[9];
   return fibs[5];
 };
 
@@ -103,7 +105,7 @@ Board.prototype.setClickOptions = function (loc) {
 };
 
 Board.prototype.updateScore = function () {
-  this.score += Math.pow(this.path.length, 2);
+  this.score += this.path.reduce((tot, cell) => tot + cell.value, 0) + Math.pow(this.path.length, 2);
 }
 
 Board.prototype.update = function () {

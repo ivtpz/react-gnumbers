@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './App.css';
+import TransitionGroup from 'react-addons-css-transition-group';
 import image1 from './imgs/1.png';
 import image1g from './imgs/1g.png';
 import image2 from './imgs/2.png';
@@ -18,7 +20,7 @@ import image8 from './imgs/8.png';
 import image8g from './imgs/8g.png';
 import image9 from './imgs/9.png';
 import image9g from './imgs/9g.png';
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+import image1n from './imgs/n1.png';
 
 
 var imageMap = {
@@ -30,7 +32,7 @@ var imageMap = {
   6: image6,
   7: image7,
   8: image8,
-  9: image9
+  9: image9,
 }
 
 var imageMapG = {
@@ -43,6 +45,10 @@ var imageMapG = {
   7: image7g,
   8: image8g,
   9: image9g
+};
+
+var imageMapN = {
+  1: image1n
 }
 
 class Cell extends Component {
@@ -60,6 +66,7 @@ class Cell extends Component {
     });
   }
 
+
   render() {
     var style = {}
       if (this.props.cell.clicked) {
@@ -67,15 +74,20 @@ class Cell extends Component {
       } else {
         style.backgroundColor = this.state.hover ? 'darkgray' : 'gray'
       }
-
-    var imageDisplay = this.props.success && this.props.cell.clicked ? imageMapG[this.props.cell.value] : imageMap[this.props.cell.value];
-
+    if (this.props.cell.value < 0) {
+      var imageDisplay = imageMapN[Math.abs(this.props.cell.value)];
+    } else {
+      var imageDisplay = this.props.success && this.props.cell.clicked ? imageMapG[this.props.cell.value] : imageMap[this.props.cell.value];
+    }
+    
     return (
       <td style={style}
         onClick={() => this.props.cell.clickable ? this.props.setPath(this.props.cell) : null}
         onMouseOver={this.mouseOver.bind(this)}
         onMouseOut={this.mouseOver.bind(this)}>
-          <img src={imageDisplay} />
+
+            <img src={imageDisplay} />
+
       </td>
     )
   }
@@ -120,7 +132,7 @@ class App extends Component {
                 {this.state.board.cells.map(row =>
                 <tr>
                 {row.map(cell =>
-                  <Cell cell={cell} board={this.state.board} setPath={this.setPath.bind(this)} success={this.state.success}/>
+                    <Cell cell={cell} board={this.state.board} setPath={this.setPath.bind(this)} success={this.state.success}/>
                 )}
                 </tr>)}
             </tbody>
